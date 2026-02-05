@@ -1,0 +1,96 @@
+.cardParent {
+  border: 3px solid var(--third-color);
+  border-radius: 12px;
+  padding: 0;
+}
+
+.top-row {
+  background: rgba(249, 127, 0, 0.1);
+  border-radius: 10px;
+  padding: 8px;
+}
+
+.pending-class {
+  background: rgba(249, 127, 0, 0.1);
+}
+.confirmed-class {
+  background: rgba(40, 167, 69, 0.1);
+}
+.shipped-class {
+  background: rgba(13, 110, 253, 0.1);
+}
+.delivered-class {
+  background: rgba(40, 167, 69, 0.1);
+}
+
+/* ICONS */
+.icon {
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 15px;
+}
+
+/* INFO SECTION */
+.info-box {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.info-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.info-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.info-label {
+  color: #838383;
+  font-size: 14px;
+}
+
+.info-value {
+  color: #000;
+  font-weight: bold;
+  margin: 0;
+}
+
+/* BUTTONS */
+.btn-confirm {
+  background: #157347;
+  color: #fff;
+  font-weight: bold;
+}
+
+.btn-cancel {
+  background: #dc3545;
+  color: #fff;
+  font-weight: bold;
+}
+
+/* SUMMARY */
+.bottom-row {
+  border-radius: 10px;
+  padding: 8px;
+  margin-bottom: 15px;
+}
+
+.summary-box {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: bold;
+}

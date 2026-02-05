@@ -1,0 +1,32 @@
+<div class="container-fluid mt-3 mb-2">
+  <div class="row">
+    <div class="col-12">
+      <h2>الاقسام</h2>
+      @if (loading) {
+      <div class="categories-container mt-4">
+        <div class="row g-3 placeholder-glow">
+          @for (p of placeholderArray; track p) {
+          <div class="col-xl-2 col-lg-2 col-md-3 col-sm-4 col-6">
+            <div class="category p-3 text-center">
+              <span class="placeholder col-8"></span>
+            </div>
+          </div>
+          }
+        </div>
+      </div>
+      } @else {
+      <div class="categories-container">
+        <div class="row g-3">
+          @for (category of Categories; track category.name) {
+          <div class="col-xl-2 col-lg-2 col-md-3 col-sm-4 col-6">
+            <div class="category" (click)="goToProducts(category.name)">
+              <h5>{{category.name}}</h5>
+            </div>
+          </div>
+          }
+        </div>
+      </div>
+      }
+    </div>
+  </div>
+</div>

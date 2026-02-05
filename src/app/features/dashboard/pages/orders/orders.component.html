@@ -1,0 +1,253 @@
+<div class="orders">
+  <!-- FILTER HEADER -->
+  <div class="row">
+    <div class="col-md-12 p-0">
+      <div class="filterBtn">
+        <h1>الطلبيات</h1>
+
+        <div class="row-cols-1 row-cols-md-10 row-cols-lg-11 mt-2">
+          @for (btn of filterButtons; track btn.value) {
+          <button class="btn btn-filter" [class.active]="currentStatus === btn.value" (click)="changeStatus(btn.value)">
+            {{ btn.label }}
+          </button>
+          }
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- LOADING -->
+  @if (loading) {
+  <div class="container-fluid mt-3 mb-2 p-3">
+    <div class="row g-3">
+      @for (placeholder of placeholderArray; track placeholder) {
+      <div class="col-md-6">
+        <div class="cardParent h-100 placeholder-glow p-3" style="background: #fff; color: #000;">
+          <div class="row align-items-center mb-3">
+            <div class="col-6">
+              <h4 class="placeholder col-8"></h4>
+              <span class="placeholder col-4"></span>
+            </div>
+          </div>
+
+          <div class="row align-items-center mb-3">
+            <div class="col-md-9">
+              <div class="info-box">
+                <div class="info-item">
+                  <div class="info-icon placeholder col-2" style="background: #000;"></div>
+                  <div>
+                    <p class="placeholder col-6"></p>
+                  </div>
+                </div>
+                <div class="info-item">
+                  <div class="info-icon placeholder col-2" style="background: #000;"></div>
+                  <div>
+                    <p class="placeholder col-6"></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3 text-end">
+              <button class="btn w-100 placeholder col-12"></button>
+              <button class="btn w-100 placeholder col-12 mt-2"></button>
+            </div>
+          </div>
+
+          <div class="row mb-3">
+            <div class="col-md-6 placeholder col-6"></div>
+            <div class="col-md-6 placeholder col-6"></div>
+          </div>
+        </div>
+      </div>
+      }
+    </div>
+  </div>
+
+  }
+
+
+  <!-- NO DATA -->
+  @if (!loading && orders.length === 0) {
+  <div class="text-center mt-5">
+    <h5>لا توجد طلبيات حاليا</h5>
+  </div>
+  }
+
+  <!-- ALERT MESSAGE -->
+  @if (showAlert) {
+  <div class="alert mt-5" [ngClass]="{'alert-success': alertType==='success','alert-danger': alertType==='danger'}"
+    role="alert">
+    {{ alertMessage }}
+  </div>
+  }
+
+  <!-- ORDERS LIST -->
+  <div class="container-fluid mt-3 mb-2">
+    <div class="row g-3">
+      @if (!loading && orders.length > 0) {
+      @for (order of orders; track order.id) {
+
+      <div class="col-lg-6">
+        <div class="cardParent h-100">
+          <!-- ROW 1 -->
+          <div class="row align-items-center mb-3">
+            <div class="top-row" [ngClass]="getStatusClass(order.status).top">
+              <div class="col-12">
+                <div class="d-flex align-items-center">
+                  <div class="icon badge" [ngClass]="getStatusClass(order.status).badge">
+                    <i class="fas fa-ellipsis-h"></i>
+                  </div>
+                  <div class="title">
+                    <h4 class="fw-bold m-0" [ngClass]="getStatusClass(order.status).text">{{ order.buyerName }}</h4>
+
+                    @if (order.status === 'Pending') {
+                    <span class="badge bg-orange">في انتظار الموافقة</span>
+                    }
+                    @if (order.status === 'Confirmed') {
+                    <span class="badge bg-success">مؤكد</span>
+                    }
+                    @if (order.status === 'Shipped') {
+                    <span class="badge bg-primary">تم الشحن</span>
+                    }
+                    @if (order.status === 'Delivered') {
+                    <span class="badge bg-success">تم التوصيل</span>
+                    }
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-body p-2">
+            <!-- ROW 2 -->
+            <div class="row align-items-center mb-3">
+
+              <!-- RIGHT -->
+              <div class="col-md-8">
+                <div class="info-box">
+
+                  <div class="info-item">
+                    <div class="info-icon bg-primary">
+                      <i class="fas fa-phone"></i>
+                    </div>
+                    <div>
+                      <span class="info-label">رقم الهاتف</span>
+                      <p class="info-value">{{ order.buyerPhone }}</p>
+                    </div>
+                  </div>
+
+                  <div class="info-item">
+                    <div class="info-icon bg-orange">
+                      <i class="fas fa-store"></i>
+                    </div>
+                    <div>
+                      <span class="info-label">المتجر</span>
+                      <p class="info-value">{{ order.propertyName }}</p>
+                    </div>
+                  </div>
+
+                  <div class="info-item">
+                    <div class="info-icon bg-danger">
+                      <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <div>
+                      <span class="info-label">العنوان</span>
+                      <p class="info-value">
+                        {{ truncateAddress(order.propertyLocation) }}
+                      </p>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+              <!-- LEFT -->
+              <div class="col-md-4 mt-2 text-end">
+
+                @if (order.status === 'Pending') {
+                <button class="btn btn-cancel mb-2 w-100" (click)="cancel(order.id)" [disabled]="isCancelling">
+                  @if (isCancelling) {
+                  <span class="spinner-border spinner-border-sm me-2"></span>
+                  جاري الإلغاء...
+                  } @else {
+                  <i class="fas fa-times me-2"></i>إلغاء الطلب
+                  }
+                </button>
+
+                <button class="btn btn-confirm w-100" (click)="confirm(order.id)" [disabled]="isConfirming">
+                  @if (isConfirming) {
+                  <span class="spinner-border spinner-border-sm me-2"></span>
+                  جاري التأكيد...
+                  } @else {
+                  <i class="fas fa-check me-2"></i>تأكيد الطلب
+                  }
+                </button>
+                }
+
+                @if (order.status === 'Confirmed') {
+                <button class="btn btn-confirm w-100" (click)="ship(order.id)" [disabled]="isShipping">
+                  @if (isShipping) {
+                  <span class="spinner-border spinner-border-sm me-2"></span>
+                  جاري الشحن...
+                  } @else {
+                  <i class="fas fa-truck me-2"></i>تم الشحن
+                  }
+                </button>
+                }
+
+                @if (order.status === 'Shipped') {
+                <button class="btn btn-confirm w-100" (click)="deliver(order.id)" [disabled]="isDelivering">
+                  @if (isDelivering) {
+                  <span class="spinner-border spinner-border-sm me-2"></span>
+                  جاري التوصيل...
+                  } @else {
+                  <i class="fas fa-check-double me-2"></i>تم التوصيل
+                  }
+                </button>
+                }
+
+              </div>
+            </div>
+
+            <!-- ROW 3 -->
+            <div class="bottom-row" [ngClass]="getStatusClass(order.status).top">
+              <div class="row align-items-center">
+                <div class="col-md-6">
+                  <div class="summary-box" [ngClass]="getStatusClass(order.status).text">
+                    <i class="fas fa-money-bill-wave "></i>
+                    <span>الإجمالي :</span>
+                    <strong>{{ order.totalAmount }} ج</strong>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="summary-box" [ngClass]="getStatusClass(order.status).text">
+                    <i class="fas fa-truck"></i>
+                    <span>توصيل :</span>
+                    <strong>{{ formatDate(order.deliveryDate) }}</strong>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ROW 4 -->
+            <div class="row">
+              <div class="col-12">
+                <button class="btn btn-details w-100" (click)="goToOrderDetails(order.id, order, currentStatus)">
+                  <i class="fas fa-eye me-2"></i>عرض التفاصيل
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      }
+      }
+    </div>
+  </div>
+
+  <!-- PAGINATION -->
+  <app-pagination [currentPage]="currentPage" [totalPages]="totalPages" [windowSize]="1"
+    (pageChange)="onPageChange($event)"></app-pagination>
+</div>

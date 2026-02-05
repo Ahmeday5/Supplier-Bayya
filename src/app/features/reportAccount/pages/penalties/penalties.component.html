@@ -1,0 +1,105 @@
+<div class="penalties-page">
+
+  <div class="container-fluid">
+    <!-- LOADING -->
+    @if (loading) {
+    <div class="row g-4 placeholder-glow mt-3">
+      @for (p of placeholderArray; track p) {
+      <div class="col-md-6 col-lg-4">
+        <div class="penalty-card p-3">
+
+          <div class="mb-2">
+            <span class="placeholder col-8"></span>
+          </div>
+
+          <div class="mb-2">
+            <span class="placeholder col-6"></span>
+          </div>
+
+          <div class="mb-2">
+            <span class="placeholder col-7"></span>
+          </div>
+
+          <div class="mb-2">
+            <span class="placeholder col-5"></span>
+          </div>
+
+          <div>
+            <span class="placeholder col-4"></span>
+          </div>
+
+          <div class="mt-2 placeholder col-3"></div> <!-- للـ footer رقم الطلب -->
+        </div>
+      </div>
+      }
+    </div>
+    }
+
+
+    <!-- ERROR -->
+    @if (error && !loading) {
+    <div class="alert alert-danger text-center py-4">{{ error }}</div>
+    }
+
+    @if (!loading && !error && penalties.length === 0) {
+    <div class="text-center py-5 text-muted">
+      <i class="fas fa-receipt fa-4x mb-3"></i>
+      <h5>لا توجد غرامات حتى الآن</h5>
+    </div>
+    }
+
+    @if (!loading && !error && penalties.length > 0) {
+    <!-- LIST -->
+    <div class="row">
+      <h3 class="fw-bold">الغرامات</h3>
+      @for (penalty of penalties; track penalty.id) {
+      <div class="col-md-6 col-lg-4 mb-3">
+        <div class="penalty-card">
+          <div class="card-body">
+            <p class="reason">
+              <i class="fas fa-triangle-exclamation"></i>
+              سبب الغرامة: {{ penalty.reason }}
+            </p>
+
+            <p class="info">
+              <i class="fas fa-user"></i>
+              اسم المشتري: {{ penalty.buyerName }}
+            </p>
+
+            <p class="info">
+              <i class="fas fa-truck"></i>
+              تاريخ التسليم: {{ formatDate(penalty.deliveryDate) }}
+            </p>
+
+            <p class="info">
+              <i class="fas fa-calendar-check text-success"></i>
+              تاريخ الإنشاء:
+              <span>
+                {{ formatDate(penalty.createdAt) }}
+              </span>
+            </p>
+
+            <p class="info">
+              <i class="fas fa-money-bill-wave text-danger"></i>
+              قيمة الغرامة:
+              <span class="text-danger fw-bold">
+                {{ penalty.penaltyAmount }}
+              </span>
+            </p>
+          </div>
+
+          <div class="card-footer">
+            رقم الطلب: #{{ penalty.supplierOrderId }}
+          </div>
+        </div>
+      </div>
+      }
+    </div>
+    }
+
+    <!-- PAGINATION -->
+    <app-pagination [currentPage]="currentPage" [totalPages]="totalPages" (pageChange)="onPageChange($event)">
+    </app-pagination>
+  </div>
+
+</div>

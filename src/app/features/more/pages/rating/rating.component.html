@@ -1,0 +1,77 @@
+<div class="container-fluid rating-page mt-4 mb-4">
+
+  <!-- LOADING -->
+  @if (loading) {
+  <div class="row g-3 mt-4">
+    @for (p of placeholderArray; track p) {
+    <div class="col-xl-4 col-lg-6 col-md-6 col-12">
+      <div class="rating-card skeleton placeholder-glow">
+        <div class="top d-flex align-items-center mb-2">
+          <div class="placeholder rounded-circle" style="width:40px; height:40px;"></div>
+          <div class="ms-2 flex-grow-1">
+            <div class="placeholder col-6 mb-1"></div>
+            <div class="placeholder col-4"></div>
+          </div>
+        </div>
+        <div class="stars mb-2">
+          <div class="placeholder col-4"></div>
+        </div>
+        <div class="comment placeholder col-12 mb-2" style="height:40px;"></div>
+        <div class="date placeholder col-3" style="height:12px;"></div>
+      </div>
+    </div>
+    }
+  </div>
+  }
+
+
+  @if (!loading && ratingsData) {
+
+  <!-- HEADER -->
+  <div class="rating-header">
+    <img [src]="ratingsData.supplierWarehouseImage" alt="supplier" />
+
+    <div class="info">
+      <h4>{{ ratingsData.supplierName }}</h4>
+
+      <div class="rate">
+        <i class="fas fa-star"></i>
+        <span>{{ ratingsData.averageRate }}</span>
+        <small>({{ ratingsData.totalRates }} تقييم)</small>
+      </div>
+    </div>
+  </div>
+
+  <!-- RATINGS -->
+  <div class="row mt-4" *ngIf="ratingsData.ratings.length > 0">
+    <div class="col-xl-4 col-lg-6 col-md-6 col-12" *ngFor="let r of ratingsData.ratings">
+      <div class="rating-card">
+        <div class="top">
+          <i class="fas fa-user-circle"></i>
+          <h6>{{ r.buyerName }}</h6>
+        </div>
+
+        <div class="stars">
+          <i class="fas fa-star" *ngFor="let s of starsArray(r.rate)"></i>
+        </div>
+
+        <p class="comment">
+          {{ r.comment || 'بدون تعليق' }}
+        </p>
+
+        <span class="date">
+          <i class="far fa-clock"></i>
+          {{ r.createdAt | date: 'mediumDate' }}
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- EMPTY STATE -->
+  <div class="empty-state" *ngIf="ratingsData.ratings.length === 0">
+    <i class="far fa-star"></i>
+    <p>لا توجد تقييمات بعد</p>
+  </div>
+
+  }
+</div>

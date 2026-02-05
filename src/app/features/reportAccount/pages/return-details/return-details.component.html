@@ -1,0 +1,92 @@
+<div class="container-fluid mb-5">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h3 class="fw-bold">تفاصيل المرتجع #{{ returnOrder?.supplierOrderId || 'جاري التحميل...' }}</h3>
+    <button class="btn btn-secondary fw-bold" (click)="goBack()">
+      العودة <i class="fas fa-arrow-left me-2"></i>
+    </button>
+  </div>
+
+  @if (!returnOrder && loading) {
+  <div class="cardParent placeholder-glow">
+    <div class="card-body p-0">
+      <div class="table-responsive custom-table">
+        <table class="table custom-table-design text-center">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>اسم المنتج</th>
+              <th>الكمية المرتجعة</th>
+              <th>سعر الوحدة</th>
+              <th>تاريخ الإرجاع</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (p of placeholderArray; track p; let i = $index) {
+            <tr>
+              <td><span class="placeholder col-6"></span></td>
+              <td><span class="placeholder col-8"></span></td>
+              <td><span class="placeholder col-6"></span></td>
+              <td><span class="placeholder col-6"></span></td>
+              <td><span class="placeholder col-7"></span></td>
+            </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  }
+
+  @if (returnOrder) {
+  <div class="order-summary">
+    <div class="order-summary row mb-4 p-3">
+      <div class="col-md-6 mb-1">
+        <h6>رقم الطلب : {{ returnOrder.supplierOrderId }}</h6>
+      </div>
+      <div class="col-md-6 mb-1">
+        <h6>الإجمالي : {{ returnOrder.totalRefundAmount | number:'1.2-2' }} جنية</h6>
+      </div>
+      <div class="col-md-6 mb-1">
+        <h6>اسم المشتري : {{ returnOrder.buyerName }}</h6>
+      </div>
+      <div class="col-md-6 mb-1">
+        <h6>تاريخ الطلب : {{ formatDate(returnOrder.orderDate) }}</h6>
+      </div>
+      <div class="col-md-6 mb-1">
+        <h6> اجمالي القيمة المرتجعة : {{ returnOrder.totalReturnedQuantity }}</h6>
+      </div>
+    </div>
+  </div>
+
+  <div class="cardParent">
+    <div class="card-body p-0">
+      <div class="table-responsive custom-table">
+        <table class="table custom-table-design text-center">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>اسم المنتج</th>
+              <th>الكمية المرتجعة</th>
+              <th>سعر الوحدة</th>
+              <th>تاريخ الإرجاع</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (item of returnOrder.items; track item.id; let i = $index) {
+            <tr>
+              <td>{{ i + 1 }}</td>
+              <td>{{ item.productName }}</td>
+              <td>{{ item.returnedQuantity }}</td>
+              <td>{{ item.unitPrice | number:'1.2-2' }} ج.م</td>
+              <td>{{ formatDate(item.returnDate) }}</td>
+            </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  }@else {
+  <p class="text-center">لا توجد تفاصيل متاحة</p>
+  }
+</div>

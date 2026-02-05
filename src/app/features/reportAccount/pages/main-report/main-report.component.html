@@ -1,0 +1,30 @@
+<div class="main-report">
+  <div class="row">
+    <div class="col-md-12 p-0">
+      <div class="filterBtn">
+        <h1>تقارير الحساب</h1>
+
+        <div class="row-cols-1 row-cols-md-10 row-cols-lg-11 mt-2">
+          <button class="btn btn-filter mt-1" [routerLinkActive]="'active'" [routerLinkActiveOptions]="{ exact: true }"
+            routerLink="penalties">
+            عرض الغرامات
+          </button>
+
+          <button class="btn-filter mt-1" [routerLinkActive]="'active'" [routerLinkActiveOptions]="{ exact: true }"
+            routerLink="account-statement">
+            عرض كشف الحساب
+          </button>
+
+          <button class="btn-filter mt-1" [routerLinkActive]="'active'" [routerLinkActiveOptions]="{ exact: true }"
+            routerLink="returns">
+            عرض المرتجعات
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content mt-2">
+    <router-outlet></router-outlet>
+  </div>
+</div>

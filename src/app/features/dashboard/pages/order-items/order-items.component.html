@@ -1,0 +1,213 @@
+<div class="container-fluid mt-4 mb-5">
+  <!-- عنوان الصفحة -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h3 class="fw-bold">تفاصيل الطلب #{{ order?.id || 'جاري التحميل...' }}</h3>
+    <button class="btn btn-secondary fw-bold" (click)="goBack()">
+      العودة للطلبيات <i class="fas fa-arrow-left me-2"></i>
+    </button>
+  </div>
+
+  <!-- حالة التحميل -->
+  @if (loading) {
+  <div class="container-fluid mt-4 mb-5 placeholder-glow">
+
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h3 class="placeholder col-4"></h3>
+      <button class="btn placeholder col-2"></button>
+    </div>
+
+    <!-- Order summary -->
+    <div class="cardParent p-3 mb-4">
+      <div class="row">
+        <div class="col-md-6 mb-2">
+          <p class="placeholder col-8"></p>
+        </div>
+        <div class="col-md-6 mb-2">
+          <p class="placeholder col-6"></p>
+        </div>
+
+        <div class="col-md-6 mb-2">
+          <p class="placeholder col-7"></p>
+        </div>
+        <div class="col-md-6 mb-2">
+          <p class="placeholder col-5"></p>
+        </div>
+
+        <div class="col-md-12 mt-2">
+          <p class="placeholder col-10"></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Table placeholder -->
+    <div class="cardParent p-3">
+      @for (item of placeholderArray; track item) {
+      <div class="row mb-2 ">
+        <div class="col-2 placeholder"></div>
+        <div class="col-4 placeholder"></div>
+        <div class="col-2 placeholder"></div>
+        <div class="col-2 placeholder"></div>
+        <div class="col-2 placeholder"></div>
+      </div>
+      }
+    </div>
+
+  </div>
+  }
+
+
+  <!-- رسالة خطأ -->
+  @if (errorMessage && !loading) {
+  <div class="alert alert-danger text-center py-4">
+    {{ errorMessage }}
+    <div class="mt-3">
+      <button class="btn btn-outline-danger" (click)="goBack()">العودة للطلبيات</button>
+    </div>
+  </div>
+  }
+
+  <!-- محتوى الطلب -->
+  @if (order && !loading && !errorMessage) {
+  <div class="order-summary">
+    <div class="order-summary row mb-4 p-3">
+      <div class="col-md-6 mb-1">
+        <h6>الإجمالي : {{ order.totalAmount | number:'1.2-2' }} جنية</h6>
+      </div>
+      <div class="col-md-6 mb-1">
+        <h6>حالة الطلب : <span class="badge" style="background: var(--main-color);">@if(order.status == "Pending") {
+            قيد الإنتظار
+            }@else if (order.status == "Confirmed") {
+            مؤكد
+            }@else if (order.status == "Shipped") {
+            تم الشحن
+            }@else if (order.status == "Delivered") {
+            تم التوصيل
+            }@else if (order.status == "Canceled") {
+            ملغي من المورد
+            }@else {
+            {{order.status}}
+            }</span></h6>
+      </div>
+      <div class="col-md-6 mb-1">
+        <h6>اسم المشتري : {{ order.buyerName }}</h6>
+      </div>
+      <div class="col-md-6 mb-1">
+        <h6>رقم تليفون المشتري : {{ order.buyerPhone }}</h6>
+      </div>
+      <div class="col-md-6 mb-1">
+        <h6> المتجر : {{ order.propertyName }}</h6>
+      </div>
+      <div class="col-md-6 mb-1">
+        <h6>تاريخ التوصيل : {{ formatDate(order.deliveryDate) }}</h6>
+      </div>
+      <div class="col-md-6 mb-1">
+        <h6>طريقة الدفع : {{ order.paymentMethod }}</h6>
+      </div>
+      <div class="col-md-6 mb-1">
+        <h6> مبلغ الدفع للمحفظة : {{ order.walletPaymentAmount }}</h6>
+      </div>
+      <div class="col-md-12 mb-1">
+        <h6> العنوان بالتفصيل : {{ order.propertyAddress }} - {{ order.propertyLocation }}</h6>
+      </div>
+    </div>
+  </div>
+
+  <div class="cardParent">
+    <div class="card-body">
+      <div class="table-responsive custom-table">
+        <table class="table custom-table-design text-center">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>اسم المنتج</th>
+              <th>الكمية</th>
+              <th>سعر الوحدة</th>
+              <th>الإجمالي</th>
+              @if (order.status === 'Delivered') {
+              <th>مرتجع</th>
+              }
+            </tr>
+          </thead>
+          <tbody>
+            @for (item of order.items; track item.id; let i = $index) {
+            <tr>
+              <td>{{ i + 1 }}</td>
+              <td>{{ item.productName }}</td>
+              <td>{{ item.quantity }}</td>
+              <td>{{ item.unitPrice | number:'1.2-2' }} جنية</td>
+              <td>{{ item.lineTotal | number:'1.2-2' }} جنية</td>
+              @if (order.status === 'Delivered') {
+              <td>
+                <button class="btn btn-details" title="عمل مرتجع" [disabled]="item.quantity === 0"
+                  (click)="openReturnModal(item)">
+                  <i class="fa-solid fa-rotate-left"></i>
+                </button>
+              </td>
+              }
+            </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  } @else if (!order && loading && errorMessage) {
+  <p class="text-center">لا توجد تفاصيل متاحة</p>
+  }
+
+  <!-- Return Modal -->
+  @if (selectedItem) {
+  <div class="modal fade show d-block" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+
+        <!-- ALERT MESSAGE -->
+        @if (showAlert) {
+        <div class="alert mt-5"
+          [ngClass]="{'alert-success': alertType==='success','alert-danger': alertType==='danger'}" role="alert">
+          {{ alertMessage }}
+        </div>
+        }
+
+        <div class="modal-header">
+          <h5 class="modal-title">عمل مرتجع</h5>
+          <button class="btn-close" (click)="closeReturnModal()"></button>
+        </div>
+
+        <div class="modal-body">
+          <p class="mb-2">
+            المنتج: <strong>{{ selectedItem.productName }}</strong>
+          </p>
+
+          <label class="form-label">الكمية المرتجعة</label>
+          <input type="number" class="form-control" [(ngModel)]="returnQuantity" [min]="1"
+            [max]="selectedItem.quantity" />
+
+          @if (returnError) {
+          <small class="text-danger">{{ returnError }}</small>
+          }
+        </div>
+
+        <div class="modal-footer">
+          <button class="btn btn-secondary" (click)="closeReturnModal()">إلغاء</button>
+          <button class="btn btn-danger d-flex align-items-center gap-2" [disabled]="isSubmitting"
+            (click)="confirmReturn()">
+
+            @if (isSubmitting) {
+            <span class="spinner-border spinner-border-sm"></span>
+            جاري التنفيذ...
+            } @else {
+            تأكيد المرتجع
+            }
+          </button>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <div class="modal-backdrop fade show"></div>
+  }
+
+</div>

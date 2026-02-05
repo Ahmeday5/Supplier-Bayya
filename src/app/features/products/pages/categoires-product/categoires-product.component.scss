@@ -1,0 +1,12 @@
+.category {
+  background: var(--main-color);
+  color: var(--second-color);
+  border-radius: 12px;
+  padding: 10px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 90px !important;
+  cursor: pointer;
+}

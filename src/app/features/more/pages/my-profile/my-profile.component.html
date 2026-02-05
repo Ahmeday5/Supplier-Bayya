@@ -1,0 +1,182 @@
+<div class="container-fluid profile-page">
+  <div class="row">
+    <div class="col-12">
+
+      <!-- LOADING -->
+      @if (!Profile && loading) {
+      <div class="row mt-3 g-3">
+        @for (p of placeholderArray; track p) {
+        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
+          <div class="profile-card placeholder-glow">
+            <div class="placeholder rounded-circle mx-auto" style="width: 60px; height: 60px;"></div>
+            <div class="mt-2 placeholder col-6 mx-auto"></div>
+            <div class="mt-1 placeholder col-4 mx-auto"></div>
+          </div>
+        </div>
+        }
+      </div>
+      }
+
+      <!-- PROFILE -->
+      @if (Profile && !loading) {
+
+      <!-- IMAGE -->
+      <div class="profile-header text-center mt-3">
+        <img [src]="Profile.warehouseImageUrl" alt="warehouse" class="warehouseImageUrl" />
+        <h4 class="mt-3 fw-bold">{{ Profile.name }}</h4>
+        <span class="status" [class.active]="Profile.isActive" [class.inactive]="!Profile.isActive">
+          <i class="fas fa-circle"></i>
+          {{ Profile.isActive ? 'نشط' : 'غير نشط' }}
+        </span>
+      </div>
+
+      <!-- DETAILS -->
+      <div class="row mt-4">
+
+        <!-- EMAIL -->
+        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
+          <div class="profile-card">
+            <i class="fas fa-envelope"></i>
+            <div>
+              <span>البريد الإلكتروني</span>
+              <p>{{ Profile.email }}</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- PHONE -->
+        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
+          <div class="profile-card">
+            <i class="fas fa-phone"></i>
+            <div>
+              <span>رقم الهاتف</span>
+              <p>{{ Profile.phoneNumber }}</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- SUPPLIER TYPE -->
+        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
+          <div class="profile-card">
+            <i class="fas fa-truck-loading"></i>
+            <div>
+              <span>نوع المورد</span>
+              <p>{{ Profile.supplierType }}</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- LOCATION -->
+        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
+          <div class="profile-card">
+            <i class="fas fa-location-dot"></i>
+            <div>
+              <span>موقع المخزن</span>
+              <p>{{ Profile.warehouseLocation }}</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- ADDRESS -->
+        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
+          <div class="profile-card">
+            <i class="fas fa-map-marked-alt"></i>
+            <div>
+              <span>عنوان المخزن</span>
+              <p>{{ Profile.warehouseAddress }}</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- DELIVERY METHOD -->
+        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
+          <div class="profile-card">
+            <i class="fas fa-shipping-fast"></i>
+            <div>
+              <span>طريقة التوصيل</span>
+              <p>{{ Profile.deliveryMethod }}</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- PROFIT -->
+        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
+          <div class="profile-card">
+            <i class="fas fa-percent"></i>
+            <div>
+              <span>نسبة الربح</span>
+              <p>{{ Profile.profitPercentage }}%</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- MIN ORDER PRICE -->
+        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
+          <div class="profile-card">
+            <i class="fas fa-money-bill-wave"></i>
+            <div>
+              <span>أقل سعر طلب</span>
+              <p>{{ Profile.minimumOrderPrice }} ج</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- MIN ORDER ITEMS -->
+        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
+          <div class="profile-card">
+            <i class="fas fa-boxes-stacked"></i>
+            <div>
+              <span>أقل عدد منتجات</span>
+              <p>{{ Profile.minimumOrderItems }}</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- DELIVERY DAYS -->
+        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
+          <div class="profile-card">
+            <i class="fas fa-calendar-days"></i>
+            <div>
+              <span>أيام التوصيل</span>
+              <p>{{ Profile.deliveryDays }} يوم</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- WALLET -->
+        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
+          <div class="profile-card highlight">
+            <i class="fas fa-wallet"></i>
+            <div>
+              <span>رصيد المحفظة</span>
+              <p>{{ Profile.walletBalance }} ج</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- RATINGS -->
+        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
+          <div class="profile-card">
+            <i class="fas fa-star"></i>
+            <div>
+              <span>إجمالي التقييمات</span>
+              <p>{{ Profile.totalRatings }}</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- VIEW ALL RATINGS BUTTON -->
+        <div class="col-12 mt-4">
+          <div class="d-flex justify-content-center">
+            <button class="btn view-ratings-btn" (click)="goToRatings()">
+              <i class="fas fa-star-half-stroke"></i>
+              عرض جميع التقييمات
+            </button>
+          </div>
+        </div>
+
+      </div>
+      }
+    </div>
+  </div>
+</div>

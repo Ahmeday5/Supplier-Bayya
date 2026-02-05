@@ -1,0 +1,21 @@
+.return-card {
+  border-radius: 16px;
+  background: white;
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+  }
+
+  .info-list p {
+    font-size: 0.95rem;
+    color: #555;
+  }
+}
+
+.btn-details {
+  background: var(--main-color);
+  color: var(--second-color);
+  font-weight: bold;
+}

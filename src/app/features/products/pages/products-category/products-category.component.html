@@ -1,0 +1,214 @@
+<div class="container-fluid mt-3 mb-2">
+  <div class="row g-3">
+    <div class="col-12">
+      <h2>منتجات الفئة: {{ category || 'جميع الفئات' }}</h2>
+      <input type="search" class="form-control search-input mt-2" placeholder="ابحث عن منتج..."
+        [formControl]="searchControl" />
+    </div>
+
+    <!-- SEARCH MESSAGE -->
+    @if (searchMessage) {
+    <div class="col-12 text-center mt-2">
+      <p class="alert alert-info fw-bold">{{ searchMessage }}</p>
+    </div>
+    }
+
+    <!-- LOADING -->
+    @if (loading) {
+    <div class="row g-3 placeholder-glow mt-3">
+
+      @for (p of placeholderArray; track p) {
+      <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12">
+        <div class="cardParent product-card h-100 p-3">
+
+          <div class="d-flex align-items-center justify-content-between">
+
+            <!-- IMAGE -->
+            <div class="product-img">
+              <div class="placeholder rounded" style="width: 70px; height: 70px;"></div>
+            </div>
+
+            <!-- INFO -->
+            <div class="product-info flex-grow-1 px-2">
+              <h6 class="placeholder col-8 mb-2"></h6>
+
+              <div class="info-line mb-2">
+                <span class="placeholder col-6"></span>
+              </div>
+
+              <div class="info-line">
+                <span class="placeholder col-5"></span>
+              </div>
+            </div>
+
+            <!-- ACTION -->
+            <div class="product-actions">
+              <span class="placeholder rounded-circle" style="width: 36px; height: 36px;"></span>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      }
+
+    </div>
+    }
+
+
+    <!-- ERROR -->
+    @if (errorMessage && !loading) {
+    <div class="col-12 text-center mt-5">
+      <div class="alert alert-danger fw-bold">
+        {{ errorMessage }}
+      </div>
+    </div>
+    }
+
+    <!-- SUCCESS -->
+    @if (successMessage && !loading) {
+    <div class="col-12 text-center mt-5">
+      <div class="alert alert-success fw-bold">
+        {{ successMessage }}
+      </div>
+    </div>
+    }
+
+    <!-- NO DATA -->
+    @if (products.length === 0 && !loading && !errorMessage) {
+    <div class="col-12 text-center mt-5">
+      <h5>لا توجد منتجات حاليًا</h5>
+    </div>
+    }
+
+    @if (!loading && products.length > 0) {
+    <!-- PRODUCTS -->
+    @for (product of products; track product.id) {
+    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12">
+      <div class="cardParent product-card h-100">
+        <div class="d-flex align-items-center justify-content-between">
+
+          <!-- IMAGE -->
+          <div class="product-img">
+            <img [src]="product.imageUrl || 'assets/img/logo.png'" [alt]="product.name">
+          </div>
+
+          <!-- INFO -->
+          <div class="product-info flex-grow-1 px-2">
+            <h6 class="product-title">
+              {{ product.name }}
+            </h6>
+
+            <!-- MAX -->
+            <div class="info-line text-muted">
+              <i class="fa-solid fa-building"></i>
+              <span>{{ product.company }}</span>
+            </div>
+
+            <!-- QTY -->
+            <div class="info-line text-muted">
+              <i class="fa-solid fa-tags"></i>
+              <span>{{ product.category }}</span>
+            </div>
+          </div>
+
+          <!-- ACTIONS -->
+          <div class="product-actions text-center">
+            <button class="btn btn-sm btn-add" (click)="openAddModal(product.id)">
+              <i class="fa-solid fa-plus"></i>
+            </button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    }
+    }
+
+    <!-- PAGINATION -->
+    <app-pagination [currentPage]="currentPage" [totalPages]="totalPages" (pageChange)="onPageChange($event)">
+    </app-pagination>
+  </div>
+</div>
+
+<!-- Add Modal -->
+<div class="modal fade" id="addProductModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title fw-bold" id="addModalLabel">إضافة منتج جديد</h5>
+        <button type="button" class="btn-close" (click)="closeModal()" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        @if (errorMessage) {
+        <div class="alert alert-danger mb-3">{{ errorMessage }}</div>
+        }
+        <form [formGroup]="addForm">
+          <!-- PRICE NOW -->
+          <div class="mb-3">
+            <label for="priceNow" class="form-label fw-bold">السعر الآن (إلزامي، أكبر من 0.01)</label>
+            <input type="number" class="form-control" id="priceNow" formControlName="priceNow" step="0.01">
+            @if (addForm.get('priceNow')?.invalid && addForm.get('priceNow')?.touched) {
+            <div class="text-danger small">يرجى إدخال سعر صالح (أكبر من 0.01)</div>
+            }
+          </div>
+
+          <!-- PRICE BEFORE -->
+          <div class="mb-3">
+            <label for="priceBefore" class="form-label fw-bold">السعر قبل الخصم (اختياري)</label>
+            <input type="number" class="form-control" id="priceBefore" formControlName="priceBefore" step="0.01">
+            @if (addForm.get('priceBefore')?.invalid && addForm.get('priceBefore')?.touched) {
+            <div class="text-danger small">يرجى إدخال سعر صالح (0 أو أكبر)</div>
+            }
+          </div>
+
+          <!-- QUANTITY -->
+          <div class="mb-3">
+            <label for="quantity" class="form-label fw-bold">الكمية (إلزامي، 1 أو أكبر)</label>
+            <input type="number" class="form-control" id="quantity" formControlName="quantity">
+            @if (addForm.get('quantity')?.invalid && addForm.get('quantity')?.touched) {
+            <div class="text-danger small">يرجى إدخال كمية صالحة (1 أو أكبر)</div>
+            }
+          </div>
+
+          <!-- MAX ORDER LIMIT -->
+          <div class="mb-3">
+            <label for="maxOrderLimit" class="form-label fw-bold">الحد الأقصى للطلب (إلزامي، 1 أو أكبر)</label>
+            <input type="number" class="form-control" id="maxOrderLimit" formControlName="maxOrderLimit">
+            @if (addForm.get('maxOrderLimit')?.invalid && addForm.get('maxOrderLimit')?.touched) {
+            <div class="text-danger small">يرجى إدخال حد أقصى صالح (1 أو أكبر)</div>
+            }
+          </div>
+
+          <!-- STATUS -->
+          <div class="mb-3">
+            <label for="status" class="form-label fw-bold">الحالة (إلزامي)</label>
+            <select class="form-select" id="status" formControlName="status">
+              <option value="Active">منشور (Active)</option>
+              <option value="NotActive">غير منشور (NotActive)</option>
+            </select>
+            @if (addForm.get('status')?.invalid && addForm.get('status')?.touched) {
+            <div class="text-danger small">يرجى اختيار حالة صالحة</div>
+            }
+          </div>
+
+          <!-- DESCRIPTION -->
+          <div class="mb-3">
+            <label for="productDescription" class="form-label fw-bold">وصف المنتج (اختياري)</label>
+            <textarea class="form-control" id="productDescription" formControlName="productDescription"
+              rows="3"></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeModal()" [disabled]="addLoading">إلغاء</button>
+        <button type="button" class="btn btn-primary" (click)="saveAdd()" [disabled]="addLoading || addForm.invalid">
+          @if (addLoading) {
+          <span class="spinner-border spinner-border-sm me-2"></span> جاري الإضافة...
+          } @else {
+          إضافة المنتج
+          }
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

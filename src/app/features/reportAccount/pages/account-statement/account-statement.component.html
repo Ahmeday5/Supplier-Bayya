@@ -1,0 +1,96 @@
+<div class="container-fluid py-4">
+  <h2 class="fw-bold mb-0">كشف الحساب</h2>
+
+  @if (loading) {
+  <div class="row g-4 placeholder-glow mt-3">
+
+    @for (p of placeholderArray; track p) {
+    <div class="col-md-6 col-lg-4">
+      <div class="penalty-card p-3">
+
+        <div class="d-flex justify-content-between mb-3">
+          <span class="placeholder col-5"></span>
+          <span class="placeholder col-3"></span>
+        </div>
+
+        <div class="mb-2">
+          <span class="placeholder col-8"></span>
+        </div>
+
+        <div class="mb-2">
+          <span class="placeholder col-6"></span>
+        </div>
+
+        <div class="mb-2">
+          <span class="placeholder col-7"></span>
+        </div>
+
+        <div>
+          <span class="placeholder col-4"></span>
+        </div>
+
+      </div>
+    </div>
+    }
+
+  </div>
+  }
+
+
+  @if (error && !loading) {
+  <div class="alert alert-danger text-center py-4">{{ error }}</div>
+  }
+
+  @if (!loading && !error && statements.length === 0) {
+  <div class="text-center py-5 text-muted">
+    <i class="fas fa-receipt fa-4x mb-3"></i>
+    <h5>لا توجد حركات مالية حتى الآن</h5>
+  </div>
+  }
+
+  @if (!loading && !error && statements.length > 0) {
+  <div class="row g-4">
+    @for (item of statements; track item.id) {
+    <div class="col-md-6 col-lg-4">
+      <div class="penalty-card">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-start mb-3">
+            <div>
+              <h6 class="fw-bold mb-1">{{ item.title }}</h6>
+            </div>
+            <span class="fs-5 fw-bold" [ngClass]="getAmountClass(item.amount)">
+              {{ item.amount | number:'1.2-2' }} ج.م
+            </span>
+          </div>
+
+          <div class="info-list">
+            <p class="mb-2">
+              <i class="fas fa-user me-2 text-secondary"></i>
+              {{ item.buyerName }}
+            </p>
+            <p class="mb-2">
+              <i class="fas fa-store me-2 text-secondary"></i>
+              {{ item.propertyName }}
+            </p>
+            <p class="mb-2">
+              <i class="fas fa-calendar-alt me-2 text-secondary"></i>
+              {{ formatDate(item.deliveryDate) }}
+            </p>
+            <p class="mb-0 small text-muted">
+              <i class="fas fa-clock me-2"></i>
+              {{ formatDate(item.createdAt) }}
+            </p>
+          </div>
+        </div>
+        <div class="card-footer">
+          رقم الطلب: #{{ item.supplierOrderId }}
+        </div>
+      </div>
+    </div>
+    }
+  </div>
+
+  <app-pagination [currentPage]="currentPage" [totalPages]="totalPages" (pageChange)="onPageChange($event)">
+  </app-pagination>
+  }
+</div>
