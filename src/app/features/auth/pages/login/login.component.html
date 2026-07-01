@@ -1,47 +1,133 @@
-<div class="container-fluid mt-5 p-5">
-  <div class="row justify-content-center">
-    <div class="col-md-12">
-      <div class="text-center mb-4">
-        <img src="/assets/img/logo.png" class="wow bounceInLeft" alt="Order Gomla Logo" style="max-width: 150px;">
+<div class="auth-page" dir="rtl">
+  <svg xmlns="http://www.w3.org/2000/svg" style="display: none">
+    <symbol id="check-circle-fill" fill="currentColor" viewBox="0 0 16 16">
+      <path
+        d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
+    </symbol>
+    <symbol id="exclamation-triangle-fill" fill="currentColor" viewBox="0 0 16 16">
+      <path
+        d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
+    </symbol>
+  </svg>
+
+  <div class="auth-shell">
+
+    <!-- ============ RIGHT / INFO PANEL ============ -->
+    <aside class="auth-panel auth-panel--info">
+      <div class="auth-info-glow" aria-hidden="true"></div>
+
+      <div class="auth-info-content">
+        <div class="auth-info-badge">
+          <i class="fas fa-store" aria-hidden="true"></i>
+          <span>لوحة تحكم الموردين</span>
+        </div>
+
+        <h2 class="auth-info-title">منصّتك الشاملة لإدارة أعمالك مع بيّاع</h2>
+        <p class="auth-info-lead">
+          يتيح لك نظام Supplier Bayya متابعة طلبياتك ومنتجاتك وحساباتك المالية من مكان واحد،
+          بواجهة سريعة وواضحة مصمّمة خصيصًا لموردي المنصّة.
+        </p>
+
+        <ul class="auth-info-features">
+          <li class="auth-info-feature">
+            <span class="auth-info-feature__icon"><i class="fas fa-boxes-stacked" aria-hidden="true"></i></span>
+            <div>
+              <h3>إدارة الطلبيات</h3>
+              <p>تتبّع كل الطلبيات الواردة وتفاصيل كل عنصر داخلها لحظة بلحظة.</p>
+            </div>
+          </li>
+          <li class="auth-info-feature">
+            <span class="auth-info-feature__icon"><i class="fas fa-box" aria-hidden="true"></i></span>
+            <div>
+              <h3>كتالوج المنتجات</h3>
+              <p>تنظيم منتجاتك في تصنيفات، ومتابعة عرضها للعملاء بسهولة.</p>
+            </div>
+          </li>
+          <li class="auth-info-feature">
+            <span class="auth-info-feature__icon"><i class="fas fa-wallet" aria-hidden="true"></i></span>
+            <div>
+              <h3>المديونية والمدفوعات</h3>
+              <p>مراقبة أرصدتك المالية وتسوية المدفوعات مع بيّاع بشفافية كاملة.</p>
+            </div>
+          </li>
+          <li class="auth-info-feature">
+            <span class="auth-info-feature__icon"><i class="fas fa-chart-line" aria-hidden="true"></i></span>
+            <div>
+              <h3>تقارير تفصيلية</h3>
+              <p>كشوف حساب ومرتجعات وجزاءات في تقارير واضحة تدعم قراراتك.</p>
+            </div>
+          </li>
+          <li class="auth-info-feature">
+            <span class="auth-info-feature__icon"><i class="fas fa-location-dot" aria-hidden="true"></i></span>
+            <div>
+              <h3>محطات التوصيل</h3>
+              <p>إدارة مناطق ومحطات التوصيل الخاصة بك وضبط حدودها الدنيا.</p>
+            </div>
+          </li>
+        </ul>
+
+        <div class="auth-info-footer">
+          <div class="auth-info-footer__divider"></div>
+          <p class="auth-info-footer__text" dir="ltr">
+            <i class="fas fa-code" aria-hidden="true"></i>
+            <span>Developed by <strong>TheOneSystem</strong></span>
+          </p>
+        </div>
       </div>
-    </div>
-    <div class="col-md-10">
-      <svg xmlns="http://www.w3.org/2000/svg" style="display: none">
-        <symbol id="check-circle-fill" fill="currentColor" viewBox="0 0 16 16">
-          <path
-            d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
-        </symbol>
-        <symbol id="exclamation-triangle-fill" fill="currentColor" viewBox="0 0 16 16">
-          <path
-            d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
-        </symbol>
-      </svg>
-      @if (errorMessage) {
-      <div class="col-md-10">
-        <div class="row justify-content-center">
-          <div class="alert alert-danger d-flex align-items-center mt-4 w-75" role="alert">
-            <svg class="bi flex-shrink-0 me-2 ms-3" width="24" height="24" role="img" aria-label="Danger:">
+    </aside>
+
+    <!-- ============ LEFT / FORM PANEL ============ -->
+    <section class="auth-panel auth-panel--form">
+      <div class="auth-form-wrap">
+
+        <div class="auth-brand">
+          <img src="/assets/img/logo.png" class="auth-brand__logo" alt="Supplier Bayya Logo">
+          <span class="auth-brand__name">Supplier <strong>Bayya</strong></span>
+        </div>
+
+        <div class="auth-card">
+          <div class="auth-card__head">
+            <h1 class="auth-card__title">تسجيل الدخول</h1>
+            <p class="auth-card__subtitle">أهلاً بعودتك، سجّل الدخول للوصول إلى لوحة التحكم الخاصة بك</p>
+          </div>
+
+          @if (errorMessage) {
+          <div class="alert alert-danger auth-alert d-flex align-items-center" role="alert">
+            <svg class="bi flex-shrink-0 me-2 ms-3" width="20" height="20" role="img" aria-label="Danger:">
               <use xlink:href="#exclamation-triangle-fill" />
             </svg>
             <div>{{ errorMessage }}</div>
           </div>
+          }
+
+          <form class="auth-form" #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)" novalidate>
+            <div class="auth-field">
+              <label for="phoneNumber" class="auth-field__label">رقم الهاتف</label>
+              <div class="auth-field__control">
+                <i class="fas fa-phone auth-field__icon" aria-hidden="true"></i>
+                <input type="tel" placeholder="رقم تليفونك" class="form-control auth-input" id="phoneNumber"
+                  name="phoneNumber" [(ngModel)]="phoneNumber" autocomplete="tel" inputmode="numeric"
+                  aria-required="true" required>
+              </div>
+            </div>
+
+            <div class="auth-remember form-check form-switch">
+              <input class="form-check-input" type="checkbox" role="switch" id="rememberMe" name="rememberMe"
+                [(ngModel)]="rememberMe">
+              <label class="form-check-label" for="rememberMe">تذكرني على هذا الجهاز</label>
+            </div>
+
+            <button type="submit" class="btn auth-submit" [disabled]="isLoading || loginForm.invalid">
+              <span *ngIf="isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+              <span>{{ isLoading ? 'جاري تسجيل الدخول...' : 'المتابعة' }}</span>
+              <i *ngIf="!isLoading" class="fas fa-arrow-left auth-submit__icon" aria-hidden="true"></i>
+            </button>
+          </form>
         </div>
+
+        <p class="auth-footnote">جميع الحقوق محفوظة &copy; Supplier Bayya</p>
       </div>
-      }
-      <div class="header pt-4">
-        <h1 class="text-center">تسجيل الدخول</h1>
-      </div>
-      <form class="mt-5" #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)">
-        <div class="form-group">
-          <input type="phoneNumber" placeholder="رقم تليفونك" class="form-control" id="phoneNumber" name="phoneNumber"
-            [(ngModel)]="phoneNumber" required>
-        </div>
-        <div class="submit text-center mt-5">
-          <button type="submit" class="btn" [disabled]="isLoading || loginForm.invalid"><span *ngIf="isLoading"
-              class="spinner-border spinner-border-sm"></span>
-            المتابعة</button>
-        </div>
-      </form>
-    </div>
+    </section>
+
   </div>
 </div>
